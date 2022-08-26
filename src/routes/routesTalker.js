@@ -1,7 +1,6 @@
 const { Router } = require('express');
 const readTalkersFile = require('../utils/readAndWriteFiles');
 
-
 const routesTalker = Router();
 
 routesTalker.get('/talker', async (req, res) => {
