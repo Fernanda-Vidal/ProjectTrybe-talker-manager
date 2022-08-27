@@ -3,7 +3,7 @@ const talkValidation = (req, res, next) => {
     if (!talk) {
         return res.status(400).json({ message: 'O campo "talk" é obrigatório' });
     }
-    if (!talk.rate) {
+    if (talk.rate === undefined) {
         return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
     }
     if (!talk.watchedAt) {
