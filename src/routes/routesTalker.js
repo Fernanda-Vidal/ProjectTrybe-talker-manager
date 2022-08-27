@@ -1,5 +1,11 @@
 const { Router } = require('express');
-const readTalkersFile = require('../utils/readAndWriteFiles');
+const ageValidation = require('../middlewares/ageValidation');
+const nameValidation = require('../middlewares/nameValidation');
+const rateValidation = require('../middlewares/rateValidation');
+const talkValidation = require('../middlewares/talkValidation');
+const tokenValidation = require('../middlewares/tokenValidation');
+const watchedAtValidation = require('../middlewares/watchedAtValidation');
+const { readTalkersFile, addTalker } = require('../utils/readAndWriteFiles');
 
 const routesTalker = Router();
 
@@ -16,6 +22,23 @@ routesTalker.get('/talker/:id', async (req, res) => {
         return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
     } 
     return res.status(200).json(talkerId);
+});
+
+routesTalker.post('/talker',
+    tokenValidation,
+    ageValidation,
+    nameValidation,
+    talkValidation,
+    rateValidation,
+    watchedAtValidation, async (req, res) => {
+        const { age, name, talk } = req.body;
+
+        const file = await readTalkersFile();
+        const id = file.length + 1;
+
+        await addTalker(JSON.stringify({ age, id, name, talk }));
+
+    return res.status(201).json({ name, age, id, talk });
 });
 
 module.exports = routesTalker;

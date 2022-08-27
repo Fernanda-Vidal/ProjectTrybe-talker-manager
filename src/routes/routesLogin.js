@@ -5,7 +5,9 @@ const generateToken = require('../utils/generateToken');
 const routesLogin = Router();
 
 routesLogin.post('/login', loginValidation, async (req, res) => {
-    res.status(200).json({ token: generateToken() });
+    const token = generateToken();
+
+    return res.status(200).json({ token });
 });
 
 module.exports = routesLogin;
