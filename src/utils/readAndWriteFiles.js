@@ -16,9 +16,7 @@ const addTalker = async (talker) => {
         const fileTalkers = await readTalkersFile();
         
         fileTalkers.push(JSON.parse(talker));
-        console.log(fileTalkers.length);
         const talkerAdded = await fs.writeFile(file, JSON.stringify(fileTalkers));
-        console.log(talker);
         return talkerAdded;
     } catch (error) {
         return null;
@@ -38,9 +36,9 @@ const changeTalkerFile = async (change, id) => {
                 changeTalker = fileTalkers[i];
             }
         }
-        console.log(fileTalkers, 'alterado', change.age);
         await fs.writeFile(file, JSON.stringify(fileTalkers));
-        return changeTalker;
+        console.log('teste', changeTalker);
+        return { ...change, id: Number(id) };
     } catch (error) {
         return null;
     }
@@ -50,7 +48,6 @@ const deleteTalkerFile = async (id) => {
     try {
         const fileTalkers = await readTalkersFile();
         const removeTalker = fileTalkers.filter((talker) => Number(talker.id) !== Number(id));
-        // console.log(removeTalker);
         await fs.writeFile(file, JSON.stringify(removeTalker));
         return removeTalker;
     } catch (error) {

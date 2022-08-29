@@ -69,8 +69,8 @@ routesTalker.put('/talker/:id',
 
     const change = req.body;
     const { id } = req.params;
-    await changeTalkerFile(change, id);
-    return res.status(200).json(change);
+    const result = await changeTalkerFile(change, Number(id));
+    return res.status(200).json(result);
 });
 
 routesTalker.delete('/talker/:id', tokenValidation, async (req, res) => {
