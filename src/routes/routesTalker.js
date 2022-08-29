@@ -17,7 +17,21 @@ routesTalker.get('/talker', async (req, res) => {
     return res.status(200).json(talkers);
 });
 
-routesTalker.get('/talker/:id', async (req, res) => {
+routesTalker.get('/talker/search/', tokenValidation, async (req, res) => {
+    const { q } = req.query;
+    const file = await readTalkersFile();
+    let searchTalkers;
+    if (q) {
+        searchTalkers = file.filter(({ name }) => name.includes(q));
+        return res.status(200).json(searchTalkers);
+    }
+    if (!q || q === '') {
+        return res.status(200).json(file);
+    }
+    return res.status(500).json({ message: 'Deu ruim!' });
+});
+
+routesTalker.get('/talker/:id', tokenValidation, async (req, res) => {
     const { id } = req.params;
     const talkers = await readTalkersFile(); 
     const talkerId = talkers.find((talk) => talk.id === Number(id));
