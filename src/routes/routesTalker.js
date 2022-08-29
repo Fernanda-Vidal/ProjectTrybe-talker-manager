@@ -12,7 +12,7 @@ const { readTalkersFile,
 
 const routesTalker = Router();
 
-routesTalker.get('/talker', async (req, res) => {
+routesTalker.get('/talker', async (_req, res) => {
     const talkers = await readTalkersFile();
     return res.status(200).json(talkers);
 });
@@ -28,7 +28,6 @@ routesTalker.get('/talker/search/', tokenValidation, async (req, res) => {
     if (!q || q === '') {
         return res.status(200).json(file);
     }
-    return res.status(500).json({ message: 'Deu ruim!' });
 });
 
 routesTalker.get('/talker/:id', async (req, res) => {
@@ -65,8 +64,6 @@ routesTalker.put('/talker/:id',
     talkValidation,
     watchedAtValidation,
     rateValidation, async (req, res) => {
-    // const file = await readTalkersFile();
-
     const change = req.body;
     const { id } = req.params;
     const result = await changeTalkerFile(change, Number(id));

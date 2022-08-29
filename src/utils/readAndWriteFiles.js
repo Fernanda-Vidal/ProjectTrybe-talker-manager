@@ -26,18 +26,15 @@ const addTalker = async (talker) => {
 const changeTalkerFile = async (change, id) => {
     try {
         const fileTalkers = await readTalkersFile();
-        let changeTalker = '';
         for (let i = 0; i < fileTalkers.length; i += 1) {
             if (fileTalkers[i].id === Number(id)) {
                 fileTalkers[i].name = change.name;
                 fileTalkers[i].age = change.age;
                 fileTalkers[i].talk.watchedAt = change.talk.watchedAt;
                 fileTalkers[i].talk.rate = change.talk.rate;
-                changeTalker = fileTalkers[i];
             }
         }
         await fs.writeFile(file, JSON.stringify(fileTalkers));
-        console.log('teste', changeTalker);
         return { ...change, id: Number(id) };
     } catch (error) {
         return null;
