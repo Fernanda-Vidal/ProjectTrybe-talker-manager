@@ -31,7 +31,7 @@ routesTalker.get('/talker/search/', tokenValidation, async (req, res) => {
     return res.status(500).json({ message: 'Deu ruim!' });
 });
 
-routesTalker.get('/talker/:id', tokenValidation, async (req, res) => {
+routesTalker.get('/talker/:id', async (req, res) => {
     const { id } = req.params;
     const talkers = await readTalkersFile(); 
     const talkerId = talkers.find((talk) => talk.id === Number(id));
